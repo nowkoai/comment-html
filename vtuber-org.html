@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html style="background:#00FF00;">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JSコメント表示</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=M+PLUS+1:wght@100&family=Mochiy+Pop+One&family=Mochiy+Pop+P+One&family=Rampart+One&family=Yusei+Magic&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    /* font-family: 'Dela Gothic One', cursive;
+    font-family: 'M PLUS 1', sans-serif;
+    font-family: 'Mochiy Pop One', sans-serif;
+    font-family: 'Mochiy Pop P One', sans-serif;
+    font-family: 'Rampart One', cursive; */
+    font-family: 'Yusei Magic', sans-serif;
+  }
+</style>
+
+
+</head>
+<body>
+  <button id="button01">コメント表示</button>
+
+<script>
+var comments = [
+  "あいうえおあいうえお",
+  "かきくけこかきくけこ",
+  "さしすせそさしすせそ",
+  "たちつてと",
+  "なにぬねの",
+  "はひふへほ",
+  "まみむめも",
+  "やいゆえよ",
+  "わいうえお"
+]
+// var i = 0
+
+// ボタン
+const button01 = document.getElementById("button01");
+button01.addEventListener("click", function(){createText()}, false);
+let count = 0
+// i = i + 1
+// button01.addEventListener("click", commentSend());
+
+
+// function commentSend() {
+//   comments.forEach(function(comment, count) {
+//     createText(comment)
+//   })
+// }
+
+
+// コメント表示関数
+async function createText() {
+
+  let div_text = document.createElement('div');
+  div_text.id="text"+count; //アニメーション処理で対象の指定に必要なidを設定
+  count++;
+
+  div_text.style.position = 'fixed'; //テキストのは位置を絶対位置にするための設定
+  div_text.style.whiteSpace = 'nowrap' //画面右端での折り返しがなく、画面外へはみ出すようにする
+  div_text.style.left = (document.documentElement.clientWidth) + 'px'; //初期状態の横方向の位置は画面の右端に設定
+
+  // -----------------------------------------------------
+  // フォント種別
+  fontFamilies = ['M PLUS 1', 'Mochiy Pop One', 'Mochiy Pop P One', 'Rampart One', 'Yusei Magic']
+  // fontFamilies = ['M PLUS 1']
+  var num = Math.floor(Math.random() * fontFamilies.length);
+  div_text.style.fontFamily = fontFamilies[num]
+
+  // 透過率
+  var opacites = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0];
+  var num = Math.floor(Math.random() * opacites.length);
+  div_text.style.opacity = opacites[num]
+
+  // -----------------------------------------------------
+  // フォント色
+  var colors = ["red","blue","yellow","pink","green"];
+  var num = Math.floor(Math.random() * colors.length);
+  div_text.style.color = colors[num]
+
+  // フォント大きさ
+  var sizes = [12, 18, 24, 36, 48];
+  // var sizes = [24];
+  var num = Math.floor(Math.random() * sizes.length);
+  div_text.style.fontSize = sizes[num] + "px"
+
+  // フォント太さ
+  var bolds = ["normal", "bold"];
+  var num = Math.floor(Math.random() * bolds.length);
+  div_text.style.fontWeight = bolds[num]
+  // -----------------------------------------------------
+
+
+
+  // -----------------------------------------------------
+  //初期状態の縦方向の位置は画面の上端から下端の間に設定（ランダムな配置に）
+  var random = Math.round( Math.random()*document.documentElement.clientHeight );
+  div_text.style.top = random + 'px';
+
+  //画面上に表示されるテキストを設定
+  // console.log(count + ": " + comment)
+  console.log(count)
+  // div_text.appendChild(document.createTextNode('移動するテキスト'+count));
+  div_text.appendChild(document.createTextNode(comments[count]));
+
+  // ★body直下へ挿入
+  document.body.appendChild(div_text);
+
+  // -----------------------------------------------------
+   //ライブラリを用いたテキスト移動のアニメーション： durationはアニメーションの時間、
+   //        横方向の移動距離は「画面の横幅＋画面を流れるテキストの要素の横幅」、移動中に次の削除処理がされないようawait
+  // await gsap.to("#"+div_text.id, {duration: 5, x: -1*(document.documentElement.clientWidth+div_text.clientWidth)});
+
+  // スピート指定
+  // var speeds = [1, 5, 10, 15, 20];
+  var speeds = [10];
+  var num = Math.floor(Math.random() * speeds.length);
+  var speed = speeds[num]
+
+  // ★コメント表示
+  await gsap.to("#"+div_text.id, {duration: speed, x: -1*(document.documentElement.clientWidth+div_text.clientWidth)});
+  // -----------------------------------------------------
+
+
+  //画面上の移動終了後に削除
+  div_text.parentNode.removeChild(div_text);
+
+}
+</script>
+</body>
+</html>
